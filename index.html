@@ -15,7 +15,63 @@
     <header class="header">
         <nav class="nav">
             <div class="nav-brand">
-                <h3>LC</h3>
+                <div class="logo-container">
+                    <svg class="logo-svg" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+                            </linearGradient>
+                            <filter id="glow">
+                                <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                                <feMerge>
+                                    <feMergeNode in="coloredBlur"/>
+                                    <feMergeNode in="SourceGraphic"/>
+                                </feMerge>
+                            </filter>
+                        </defs>
+                        <!-- Letter L -->
+                        <path d="M 10 45 L 10 15 L 25 15 L 25 20 L 16 20 L 16 30 L 24 30 L 24 35 L 16 35 L 16 45 Z" 
+                              fill="url(#logoGradient)" 
+                              filter="url(#glow)"
+                              opacity="0.9">
+                            <animate attributeName="opacity" 
+                                     values="0.9;1;0.9" 
+                                     dur="3s" 
+                                     repeatCount="indefinite"/>
+                        </path>
+                        
+                        <!-- Letter C -->
+                        <path d="M 50 20 C 45 15, 35 15, 35 25 C 35 35, 45 35, 50 30 M 50 25 C 45 30, 35 30, 35 40 C 35 50, 45 50, 50 45" 
+                              fill="none" 
+                              stroke="url(#logoGradient)" 
+                              stroke-width="4" 
+                              stroke-linecap="round"
+                              filter="url(#glow)"
+                              opacity="0.9">
+                            <animate attributeName="opacity" 
+                                     values="0.9;1;0.9" 
+                                     dur="3s" 
+                                     begin="0.5s"
+                                     repeatCount="indefinite"/>
+                        </path>
+                        
+                        <!-- Decorative elements -->
+                        <circle cx="15" cy="50" r="2" fill="url(#logoGradient)" opacity="0.6">
+                            <animate attributeName="r" 
+                                     values="2;3;2" 
+                                     dur="2s" 
+                                     repeatCount="indefinite"/>
+                        </circle>
+                        <circle cx="45" cy="10" r="2" fill="url(#logoGradient)" opacity="0.6">
+                            <animate attributeName="r" 
+                                     values="2;3;2" 
+                                     dur="2s" 
+                                     begin="1s"
+                                     repeatCount="indefinite"/>
+                        </circle>
+                    </svg>
+                </div>
             </div>
             <ul class="nav-menu">
                 <li><a href="#home" class="nav-link">Home</a></li>
@@ -40,6 +96,7 @@
     <!-- Hero Section -->
     <section id="home" class="hero">
         <div class="hero-content">
+            <canvas id="particles-canvas" class="particles-canvas"></canvas>
             <h1 class="hero-title">
                 Hi, I'm <span class="highlight">Levy Chemelil</span>
             </h1>
@@ -219,6 +276,10 @@
                             <span class="tech-tag">Python</span>
                             <span class="tech-tag">SQL</span>
                             <span class="tech-tag">React</span>
+                        </div>
+                        <div class="project-actions">
+                            <button class="view-project-btn">View Details</button>
+                            <button class="flip-card-btn">Flip Card</button>
                         </div>
                     </div>
                 </div>
@@ -488,7 +549,29 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <p>&copy; 2025 Levy Chemelil. All rights reserved.</p>
+            <div class="footer-content">
+                <p>&copy; 2025 Levy Chemelil. All rights reserved.</p>
+                                <div class="footer-socials">
+                    <a href="https://github.com/chememlil" target="_blank" class="footer-social-link">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="mailto:levichelal87@gmail.com" class="footer-social-link">
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                    <a href="tel:+254718376639" class="footer-social-link">
+                        <i class="fas fa-phone"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/in/levy-chemelil-6717aa25a/" target="_blank" class="footer-social-link">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                </div>
+                <div class="footer-back-to-top">
+                    <a href="#home" class="back-to-top-btn">
+                        <i class="fas fa-arrow-up"></i>
+                        Back to Top
+                    </a>
+                </div>
+            </div>
         </div>
     </footer>
 
