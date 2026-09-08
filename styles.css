@@ -944,6 +944,16 @@ strong { font-weight: 600; color: var(--ink); }
 .magnetic { will-change: auto; }
 .magnetic.is-pulled { will-change: transform; }
 
+/* A magnet inside a stagger container is also a .reveal, which transitions
+   transform over 600ms with a stagger delay. The spring writes transform every
+   frame, so that transition would swallow the pull whole — the button would
+   sit at its entrance value and never visibly move. Once a magnet has gone
+   live, transform stops being a transitioned property; everything else it
+   animates on hover carries on. */
+.motion-on .magnetic.magnet-live {
+    transition-property: opacity, background-color, color, border-color;
+}
+
 /* ------------------------------------------- Link underline + arrow shift -- */
 .link-u,
 .contact-list a {

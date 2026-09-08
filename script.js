@@ -312,7 +312,7 @@
         const STIFFNESS = 0.16;
         const DAMPING = 0.74;    // under 1, so releasing overshoots then settles
 
-        const items = magnets.map((el) => ({ el, x: 0, y: 0, vx: 0, vy: 0 }));
+        const items = magnets.map((el) => ({ el, x: 0, y: 0, vx: 0, vy: 0, live: false }));
 
         let px = -99999;
         let py = -99999;
@@ -345,6 +345,13 @@
                 m.vy = (m.vy + (ty - m.y) * STIFFNESS) * DAMPING;
                 m.x += m.vx;
                 m.y += m.vy;
+
+                // Retire the transform transition the moment this magnet first
+                // comes alive, so the entrance lift cannot swallow the spring.
+                if (near && !m.live) {
+                    m.live = true;
+                    m.el.classList.add('magnet-live');
+                }
 
                 m.el.classList.toggle('is-pulled', near);
 
