@@ -52,7 +52,7 @@
                     </svg>
                 </button>
 
-                <a href="#contact" class="btn btn--dark btn--sm header__cta">
+                <a href="#contact" class="btn btn--dark btn--sm header__cta magnetic">
                     Let's talk <span aria-hidden="true">&rarr;</span>
                 </a>
 
@@ -67,34 +67,47 @@
     <main id="main" class="frame">
         <!-- ============================ HERO ============================ -->
         <section id="home" class="hero">
+            <!-- Depth layers. data-parallax is the fraction of scroll distance each
+                 layer travels: everything here stays under 0.45 so the backdrop
+                 always trails the foreground copy, which sits at 1. -->
+            <div class="hero__bg" aria-hidden="true">
+                <span class="hero__grid"  data-parallax="0.20"></span>
+                <span class="hero__glow"  data-parallax="0.38"></span>
+                <span class="hero__chip hero__chip--a" data-parallax="0.28"></span>
+                <span class="hero__chip hero__chip--b" data-parallax="0.44"></span>
+            </div>
+
             <div class="hero__inner">
-                <h1 class="hero__title">Systems that think.<br>Software that holds.</h1>
-                <p class="hero__sub">
+                <h1 class="hero__title">
+                    <span class="clip-reveal">Systems that think.</span>
+                    <span class="clip-reveal" data-reveal-delay="150">Software that holds.</span>
+                </h1>
+                <p class="hero__sub reveal" data-reveal-delay="320">
                     I'm Levy Chemelil — a Project Manager and Full-Stack Developer building
                     autonomous AI agents and the production platforms around them.
                 </p>
-                <div class="hero__cta">
-                    <a href="#projects" class="btn btn--dark btn--lg">
+                <div class="hero__cta" data-stagger="90" data-stagger-base="440">
+                    <a href="#projects" class="btn btn--dark btn--lg magnetic">
                         See the work <span aria-hidden="true">&rarr;</span>
                     </a>
-                    <a href="#contact" class="btn btn--ghost btn--lg">Start a conversation</a>
+                    <a href="#contact" class="btn btn--ghost btn--lg magnetic">Start a conversation</a>
                 </div>
             </div>
         </section>
 
         <!-- ============================ INTRO ============================ -->
         <section class="intro">
-            <p class="eyebrow">Who you'd be working with</p>
+            <p class="eyebrow reveal">Who you'd be working with</p>
             <h2 class="intro__title">
-                Most software fails quietly, long after the demo.
+                <span class="clip-reveal">Most software fails quietly, long after the demo.</span>
             </h2>
-            <p class="intro__lede">
+            <p class="intro__lede reveal" data-reveal-delay="140">
                 I build for the day after launch. <span class="tint">Autonomous agents that recover
                 from their own failures, databases modelled to stay honest under load, and delivery
                 that lands on the date it said it would.</span>
             </p>
 
-            <ul class="stats" aria-label="At a glance">
+            <ul class="stats" data-stagger="90" aria-label="At a glance">
                 <li><span class="stats__n">4+</span><span class="stats__l">Years building</span></li>
                 <li><span class="stats__n">10+</span><span class="stats__l">Systems in production</span></li>
                 <li><span class="stats__n">1,000+</span><span class="stats__l">Support cases resolved</span></li>
@@ -103,15 +116,17 @@
         </section>
 
         <!-- ============================ PILLARS ============================ -->
-        <section id="approach" class="pillars" aria-label="What I build">
+        <section id="approach" class="pillars" data-stagger="85" aria-label="What I build">
             <article class="pillar reveal">
-                <svg class="pillar__icon" viewBox="0 0 64 64" aria-hidden="true">
-                    <circle cx="32" cy="14" r="6"/>
-                    <circle cx="14" cy="46" r="6"/>
-                    <circle cx="50" cy="46" r="6"/>
-                    <path d="M32 20v12M28 36 18 41M36 36l10 5"/>
-                    <circle cx="32" cy="34" r="3.2"/>
-                </svg>
+                <span class="media pillar__media">
+                    <svg class="pillar__icon media__inner" viewBox="0 0 64 64" aria-hidden="true">
+                        <circle cx="32" cy="14" r="6"/>
+                        <circle cx="14" cy="46" r="6"/>
+                        <circle cx="50" cy="46" r="6"/>
+                        <path d="M32 20v12M28 36 18 41M36 36l10 5"/>
+                        <circle cx="32" cy="34" r="3.2"/>
+                    </svg>
+                </span>
                 <h3>AI Agent Architecture</h3>
                 <p>
                     Autonomous multi-agent systems and document pipelines on Node.js, n8n, Gemini
@@ -121,11 +136,13 @@
             </article>
 
             <article class="pillar reveal">
-                <svg class="pillar__icon" viewBox="0 0 64 64" aria-hidden="true">
-                    <path d="M32 8 56 20 32 32 8 20Z"/>
-                    <path d="M8 32l24 12 24-12"/>
-                    <path d="M8 44l24 12 24-12"/>
-                </svg>
+                <span class="media pillar__media">
+                    <svg class="pillar__icon media__inner" viewBox="0 0 64 64" aria-hidden="true">
+                        <path d="M32 8 56 20 32 32 8 20Z"/>
+                        <path d="M8 32l24 12 24-12"/>
+                        <path d="M8 44l24 12 24-12"/>
+                    </svg>
+                </span>
                 <h3>Full-Stack Engineering</h3>
                 <p>
                     End-to-end products in Laravel, Vue, React, Flask and Node.
@@ -135,10 +152,12 @@
             </article>
 
             <article class="pillar reveal">
-                <svg class="pillar__icon" viewBox="0 0 64 64" aria-hidden="true">
-                    <path d="M32 7 53 15v17c0 13-9 21-21 25-12-4-21-12-21-25V15Z"/>
-                    <path d="M23 32l6 7 12-14"/>
-                </svg>
+                <span class="media pillar__media">
+                    <svg class="pillar__icon media__inner" viewBox="0 0 64 64" aria-hidden="true">
+                        <path d="M32 7 53 15v17c0 13-9 21-21 25-12-4-21-12-21-25V15Z"/>
+                        <path d="M23 32l6 7 12-14"/>
+                    </svg>
+                </span>
                 <h3>Security &amp; Infrastructure</h3>
                 <p>
                     OWASP-compliant headers, strict CORS, token authentication and validation.
@@ -148,11 +167,13 @@
             </article>
 
             <article class="pillar reveal">
-                <svg class="pillar__icon" viewBox="0 0 64 64" aria-hidden="true">
-                    <circle cx="32" cy="32" r="23"/>
-                    <path d="M32 9v9M32 46v9M9 32h9M46 32h9"/>
-                    <path d="M40 24 28 28l-4 12 12-4Z"/>
-                </svg>
+                <span class="media pillar__media">
+                    <svg class="pillar__icon media__inner" viewBox="0 0 64 64" aria-hidden="true">
+                        <circle cx="32" cy="32" r="23"/>
+                        <path d="M32 9v9M32 46v9M9 32h9M46 32h9"/>
+                        <path d="M40 24 28 28l-4 12 12-4Z"/>
+                    </svg>
+                </span>
                 <h3>Technical Project Management</h3>
                 <p>
                     Agile sprints, architecture diagrams and prioritised backlogs.
@@ -163,26 +184,36 @@
         </section>
     </main>
 
-    <!-- ============================ STATEMENT ============================ -->
-    <section class="statement">
-        <div class="statement__inner">
-            <h2>I'm not here to hand you a demo that works once.</h2>
-            <p>
-                I'm here to architect systems that keep running after I leave the room — under real
-                load, real users and real deadlines.
-            </p>
-        </div>
-    </section>
+    <!-- ====================== STATEMENT — pinned scrub ====================== -->
+    <!-- The track is taller than the viewport and the panel sticks inside it, so
+         the section holds still while its words fill from outline to solid, then
+         releases back into normal page flow. -->
+    <div class="pin-track" data-pin>
+        <section class="statement pin-panel">
+            <div class="statement__inner">
+                <h2 class="statement__head"><span class="fill-word">I'm</span> <span class="fill-word">not</span> <span class="fill-word">here</span> <span class="fill-word">to</span> <span class="fill-word">hand</span> <span class="fill-word">you</span> <span class="fill-word">a</span> <span class="fill-word">demo</span> <span class="fill-word">that</span> <span class="fill-word">works</span> <span class="fill-word fill-word--accent">once.</span></h2>
+                <p class="statement__sub">
+                    I'm here to architect systems that keep running after I leave the room — under real
+                    load, real users and real deadlines.
+                </p>
+                <span class="pin-meter" aria-hidden="true"><i></i></span>
+            </div>
+        </section>
+    </div>
 
     <div class="frame">
         <!-- ============================ EXPERIENCE ============================ -->
         <section id="work" class="section">
             <div class="section__head">
-                <p class="eyebrow">The track record</p>
-                <h2 class="section__title">Where I've built, supported and led.</h2>
+                <p class="eyebrow reveal">The track record</p>
+                <h2 class="section__title"><span class="clip-reveal">Where I've built, supported and led.</span></h2>
             </div>
 
-            <ol class="roles">
+            <!-- The rail's fill is scrubbed linearly against this container's own
+                 viewport progress; each role marker lights as the fill passes it. -->
+            <div class="roles-wrap" data-scrub="roles">
+                <span class="roles-rail" aria-hidden="true"><i></i></span>
+                <ol class="roles" data-stagger="90">
                 <li class="role role--current reveal">
                     <div class="role__meta">
                         <span class="role__date mono">Apr 2026 — Present</span>
@@ -286,17 +317,18 @@
                         </p>
                     </div>
                 </li>
-            </ol>
+                </ol>
+            </div>
         </section>
 
         <!-- ============================ PROJECTS ============================ -->
         <section id="projects" class="section section--flush">
             <div class="section__head">
-                <p class="eyebrow">Selected work</p>
-                <h2 class="section__title">Systems I've architected, built or led to release.</h2>
+                <p class="eyebrow reveal">Selected work</p>
+                <h2 class="section__title"><span class="clip-reveal">Systems I've architected, built or led to release.</span></h2>
             </div>
 
-            <div class="cards">
+            <div class="cards" data-stagger="85">
                 <article class="card reveal">
                     <span class="card__tag mono">AI Agent · Focus4ward</span>
                     <h3>Focus4ward Document Intelligence Agent</h3>
@@ -399,9 +431,9 @@
         <!-- ============================ ABOUT ============================ -->
         <section id="about" class="split">
             <div class="split__left">
-                <p class="eyebrow">About</p>
-                <h2 class="split__title">The short version</h2>
-                <div class="prose">
+                <p class="eyebrow reveal">About</p>
+                <h2 class="split__title"><span class="clip-reveal">The short version</span></h2>
+                <div class="prose" data-stagger="80">
                     <p>
                         I'm based in Nairobi. My work sits where AI systems meet real production
                         software — designing autonomous agents that do useful work, and building
@@ -421,7 +453,7 @@
                 </div>
             </div>
 
-            <div class="split__right">
+            <div class="split__right" data-stagger="80">
                 <div class="stack-group">
                     <h3>AI &amp; Automation</h3>
                     <p class="mono">Multi-agent systems · n8n · Google Gemini API · Claude API · Document pipelines</p>
@@ -448,9 +480,9 @@
         <!-- ============================ CREDENTIALS ============================ -->
         <section class="split split--alt">
             <div class="split__left">
-                <p class="eyebrow">Credentials</p>
-                <h2 class="split__title">Education</h2>
-                <ul class="edu">
+                <p class="eyebrow reveal">Credentials</p>
+                <h2 class="split__title"><span class="clip-reveal">Education</span></h2>
+                <ul class="edu" data-stagger="80">
                     <li>
                         <h3>BSc, Information Technology</h3>
                         <p>African International University <span class="mono tint">2023 — 2026</span></p>
@@ -471,8 +503,8 @@
             </div>
 
             <div class="split__right">
-                <p class="eyebrow">Certifications</p>
-                <ul class="certs">
+                <p class="eyebrow reveal">Certifications</p>
+                <ul class="certs" data-stagger="70">
                     <li><span>Software Engineering Certificate</span><span class="mono tint">Moringa · Nov 2024</span></li>
                     <li><span>Introduction to Artificial Intelligence</span><span class="mono tint">HP LIFE · Feb 2025</span></li>
                     <li><span>Technology Integration in Business</span><span class="mono tint">HP LIFE · Feb 2025</span></li>
@@ -486,15 +518,15 @@
         <!-- ============================ CONTACT ============================ -->
         <section id="contact" class="split split--contact">
             <div class="split__left">
-                <p class="eyebrow">Start a conversation</p>
-                <h2 class="split__title">Let's build something that lasts.</h2>
-                <p class="prose">
+                <p class="eyebrow reveal">Start a conversation</p>
+                <h2 class="split__title"><span class="clip-reveal">Let's build something that lasts.</span></h2>
+                <p class="prose reveal" data-reveal-delay="120">
                     An AI agent that needs architecting, a platform that needs shipping, or a
                     project that needs someone to hold the whole thing together.
                     <span class="tint">I'd like to hear about it.</span>
                 </p>
 
-                <ul class="contact-list">
+                <ul class="contact-list" data-stagger="70">
                     <li><span class="mono tint">Email</span><a href="mailto:levichelal87@gmail.com">levichelal87@gmail.com</a></li>
                     <li><span class="mono tint">Phone</span><a href="tel:+254718376639">+254 718 376 639</a></li>
                     <li><span class="mono tint">Location</span><span>Ngong Road, Nairobi, Kenya</span></li>
@@ -523,7 +555,7 @@
                         <label for="message">Message</label>
                         <textarea id="message" name="message" rows="5" required></textarea>
                     </div>
-                    <button type="submit" class="btn btn--amber btn--lg btn--block">
+                    <button type="submit" class="btn btn--amber btn--lg btn--block magnetic">
                         Send message <span aria-hidden="true">&rarr;</span>
                     </button>
                     <p class="field__note">Opens in your email client, addressed to me.</p>
@@ -536,11 +568,11 @@
         <div class="footer__inner">
             <p class="mono">&copy; <span id="year">2026</span> Levy Chemelil — Nairobi, Kenya</p>
             <nav class="footer__links" aria-label="Elsewhere">
-                <a href="https://github.com/chemelillevy" target="_blank" rel="noopener">GitHub</a>
-                <a href="https://www.linkedin.com/in/levy-chemelil-6717aa25a/" target="_blank" rel="noopener">LinkedIn</a>
-                <a href="mailto:levichelal87@gmail.com">Email</a>
+                <a href="https://github.com/chemelillevy" class="link-u" target="_blank" rel="noopener">GitHub</a>
+                <a href="https://www.linkedin.com/in/levy-chemelil-6717aa25a/" class="link-u" target="_blank" rel="noopener">LinkedIn</a>
+                <a href="mailto:levichelal87@gmail.com" class="link-u">Email</a>
             </nav>
-            <a href="#home" class="footer__top mono">Back to top &uarr;</a>
+            <a href="#home" class="footer__top link-u mono">Back to top <span class="link-u__arrow" aria-hidden="true">&uarr;</span></a>
         </div>
     </footer>
 

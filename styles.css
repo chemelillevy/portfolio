@@ -27,6 +27,8 @@
     --frame: 1280px;
     --pad:   clamp(20px, 4vw, 56px);
     --ease:  cubic-bezier(.22, .61, .36, 1);
+    /* The entrance curve: fast out of the gate, long settle. */
+    --ease-out: cubic-bezier(.16, 1, .3, 1);
     --header-h: 64px;
 }
 
@@ -176,11 +178,11 @@ strong { font-weight: 600; color: var(--ink); }
     position: relative;
 }
 
-.nav-link:hover { color: var(--ink); }
-
 .nav-link.active { color: var(--ink); }
 
-.nav-link.active::after {
+/* One underline serves both states: it grows from the left on hover and sits
+   open on the active link. */
+.nav-link::after {
     content: '';
     position: absolute;
     left: 0;
@@ -188,7 +190,13 @@ strong { font-weight: 600; color: var(--ink); }
     bottom: -6px;
     height: 1px;
     background: var(--amber);
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform .45s var(--ease-out);
 }
+
+.nav-link.active::after,
+.nav-link:focus-visible::after { transform: scaleX(1); }
 
 /* The header CTA already covers contact on desktop; the menu link is for mobile. */
 .nav-link--contact { display: none; }
@@ -212,8 +220,6 @@ strong { font-weight: 600; color: var(--ink); }
     cursor: pointer;
     transition: color .4s var(--ease), border-color .4s var(--ease);
 }
-
-.icon-btn:hover { color: var(--ink); border-color: var(--ink); }
 
 .icon-btn svg { width: 15px; height: 15px; }
 
@@ -257,19 +263,11 @@ strong { font-weight: 600; color: var(--ink); }
                 border-color .5s var(--ease);
 }
 
-.btn span { transition: transform .5s var(--ease); }
-.btn:hover span { transform: translateX(3px); }
+.btn span { display: inline-block; transition: transform .5s var(--ease-out); }
 
 .btn--dark  { background: var(--ink); color: var(--paper); }
-.btn--dark:hover { background: var(--navy); }
-
-[data-theme="dark"] .btn--dark:hover { background: #2A3355; color: #fff; }
-
 .btn--amber { background: var(--amber); color: var(--black); font-weight: 600; }
-.btn--amber:hover { background: var(--amber-deep); }
-
 .btn--ghost { background: transparent; color: var(--ink); border-color: var(--line); }
-.btn--ghost:hover { border-color: var(--ink); background: var(--ink); color: var(--paper); }
 
 .btn--sm  { padding: 9px 18px; font-size: 12.5px; }
 .btn--lg  { padding: 15px 34px; font-size: 14.5px; }
@@ -357,19 +355,22 @@ strong { font-weight: 600; color: var(--ink); }
 
 .pillar:first-child { border-left: 0; }
 
-.pillar__icon {
+/* The well owns the box and the clipping; the icon inside is free to scale. */
+.pillar__media {
     width: 46px;
     height: 46px;
     margin-bottom: 26px;
+}
+
+.pillar__icon {
+    width: 46px;
+    height: 46px;
     fill: none;
     stroke: var(--tint);
     stroke-width: 1.2;
     stroke-linecap: round;
     stroke-linejoin: round;
-    transition: stroke .5s var(--ease);
 }
-
-.pillar:hover .pillar__icon { stroke: var(--amber); }
 
 .pillar h3 {
     font-size: 17px;
@@ -380,14 +381,22 @@ strong { font-weight: 600; color: var(--ink); }
 .pillar p { font-size: 13.5px; line-height: 1.7; }
 
 /* ------------------------------------------------------------ Statement -- */
+/* Both themes run light type on a dark panel, so the foreground is a token —
+   the word fill and the progress meter both read it. */
 .statement {
+    --statement-fg:  #FFFFFF;
+    --statement-dim: rgba(229, 229, 229, .78);
+
     background: var(--black);
-    color: #fff;
+    color: var(--statement-fg);
     padding: clamp(110px, 17vw, 220px) var(--pad);
     text-align: center;
 }
 
 [data-theme="dark"] .statement {
+    --statement-fg:  var(--ink);
+    --statement-dim: var(--tint);
+
     background: var(--paper-2);
     border-top: 1px solid var(--line);
     border-bottom: 1px solid var(--line);
@@ -395,21 +404,18 @@ strong { font-weight: 600; color: var(--ink); }
 
 .statement__inner { max-width: 900px; margin: 0 auto; }
 
-.statement h2 {
+.statement__head {
     font-size: clamp(1.9rem, 4.2vw, 3.05rem);
     line-height: 1.16;
     letter-spacing: -.025em;
 }
 
-.statement p {
+.statement__sub {
     margin-top: 24px;
     font-size: clamp(14.5px, 1.6vw, 17px);
-    color: rgba(229, 229, 229, .78);
+    color: var(--statement-dim);
     line-height: 1.75;
 }
-
-[data-theme="dark"] .statement h2 { color: var(--ink); }
-[data-theme="dark"] .statement p  { color: var(--tint); }
 
 /* -------------------------------------------------------------- Section -- */
 .section { padding: clamp(52px, 6vw, 80px) var(--pad) clamp(60px, 7vw, 90px); }
@@ -428,6 +434,7 @@ strong { font-weight: 600; color: var(--ink); }
 
 /* ---------------------------------------------------------------- Roles -- */
 .role {
+    position: relative;
     display: grid;
     grid-template-columns: 200px 1fr;
     gap: clamp(20px, 4vw, 48px);
@@ -513,8 +520,6 @@ strong { font-weight: 600; color: var(--ink); }
 }
 
 .card:nth-child(3n + 1) { border-left: 0; }
-
-.card:hover { background: var(--paper-2); }
 
 .card__tag {
     display: block;
@@ -636,8 +641,7 @@ strong { font-weight: 600; color: var(--ink); }
 
 .contact-list li:first-child { border-top: 0; }
 .contact-list .mono { font-size: 11px; letter-spacing: .1em; text-transform: uppercase; }
-.contact-list a { transition: color .4s var(--ease); }
-.contact-list a:hover { color: var(--amber); }
+.contact-list a { transition: color .4s var(--ease-out); }
 
 .field { margin-bottom: 18px; }
 
@@ -714,18 +718,307 @@ strong { font-weight: 600; color: var(--ink); }
 }
 
 .footer__links { display: flex; gap: 22px; }
-.footer__links a { font-family: var(--font-ui); font-size: 12.5px; transition: color .4s var(--ease); }
-.footer__links a:hover { color: var(--amber); }
-.footer__top:hover { color: var(--amber); }
+.footer__links a { font-family: var(--font-ui); font-size: 12.5px; }
 
-/* ----------------------------------------------------------- Animations -- */
-.reveal {
+/* ============================================================== MOTION ==
+   Scroll storytelling, entrance reveals and cursor feedback.
+
+   Every state that starts an element hidden is scoped to `.motion-on`, which
+   script.js puts on <html> only once it has confirmed motion is allowed. With
+   JavaScript off, or with prefers-reduced-motion set, none of it applies and
+   the page renders in its finished state — nothing is ever stranded invisible.
+   ====================================================================== */
+
+/* ------------------------------------------------- Entrance: fade + lift -- */
+.motion-on .reveal {
     opacity: 0;
-    transform: translateY(14px);
-    transition: opacity .7s var(--ease), transform .7s var(--ease);
+    transform: translate3d(0, 24px, 0);
+    transition: opacity .6s var(--ease-out), transform .6s var(--ease-out);
+    transition-delay: var(--d, 0ms);
 }
 
-.reveal.is-visible { opacity: 1; transform: none; }
+.motion-on .reveal.is-visible { opacity: 1; transform: none; }
+
+/* --------------------------------------------- Entrance: clip-path wipe -- */
+/* The mask is opened vertically past the em box so descenders and accents are
+   never shaved; only the right edge does the uncovering. */
+.motion-on .clip-reveal {
+    display: block;
+    clip-path: inset(-.24em 100% -.20em 0);
+    transition: clip-path .7s var(--ease-out);
+    transition-delay: var(--d, 0ms);
+}
+
+.motion-on .clip-reveal.is-visible { clip-path: inset(-.24em 0% -.20em 0); }
+
+/* The hero title used to be two lines split by a <br>; the spans replace it. */
+.hero__title .clip-reveal { display: block; }
+
+/* ------------------------------------------------------- Hero depth bed -- */
+.hero { position: relative; overflow: clip; }
+
+@supports not (overflow: clip) {
+    .hero { overflow: hidden; }
+}
+
+.hero__bg {
+    position: absolute;
+    inset: -18% -3% -28%;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.hero__inner { position: relative; z-index: 1; }
+
+.hero__bg > * {
+    position: absolute;
+    display: block;
+}
+
+/* The page's own hairline grid, echoed faintly and faded out at the edges. */
+.hero__grid {
+    inset: 0;
+    background-image:
+        linear-gradient(to right,  var(--line-soft) 1px, transparent 1px),
+        linear-gradient(to bottom, var(--line-soft) 1px, transparent 1px);
+    background-size: 96px 96px;
+    -webkit-mask-image: radial-gradient(118% 88% at 50% 32%, #000 6%, transparent 70%);
+            mask-image: radial-gradient(118% 88% at 50% 32%, #000 6%, transparent 70%);
+}
+
+/* Full-bleed so the warm centre needs no centring transform of its own — the
+   parallax loop owns `transform` on every layer here. */
+.hero__glow {
+    inset: -8% 0 0;
+    background: radial-gradient(44% 40% at 50% 24%,
+                color-mix(in srgb, var(--amber) 24%, transparent) 0%,
+                transparent 68%);
+}
+
+.hero__chip { width: 132px; height: 132px; }
+
+/* Rotation lives on the child so the parallax translate stays on a square
+   axis — rotating the translated element would drag it sideways. */
+.hero__chip::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+}
+
+.hero__chip--a { top: 12%;  left: 3%; }
+.hero__chip--a::before { transform: rotate(9deg); }
+
+.hero__chip--b { top: 58%; right: 4%; width: 96px; height: 96px; }
+.hero__chip--b::before { transform: rotate(-14deg); }
+
+/* -------------------------------------------- Scrub: the roles timeline -- */
+.roles-wrap { position: relative; }
+
+.roles-rail {
+    display: none;
+    position: absolute;
+    left: -18px;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: var(--line);
+}
+
+.motion-on .roles-rail { display: block; }
+
+/* --p is written straight from the container's viewport progress, so the fill
+   is a linear function of scroll and nothing else. */
+.roles-rail i {
+    display: block;
+    height: 100%;
+    background: var(--amber);
+    transform: scaleY(var(--p, 0));
+    transform-origin: top center;
+}
+
+.motion-on .role::before {
+    content: '';
+    position: absolute;
+    left: -21px;
+    top: clamp(30px, 3.2vw, 44px);
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    border: 1px solid var(--line);
+    background: var(--paper);
+    transform: scale(.6);
+    transition: transform .45s var(--ease-out),
+                background-color .45s var(--ease-out),
+                border-color .45s var(--ease-out);
+}
+
+.motion-on .role.is-passed::before {
+    background: var(--amber);
+    border-color: var(--amber);
+    transform: scale(1);
+}
+
+/* ------------------------------------- Pin & transform: outline to fill -- */
+.pin-track { position: relative; }
+
+/* Taller than the viewport, so the sticky panel has room to hold while the
+   words fill, then releases back into normal flow at the track's end. */
+.motion-on .pin-track { height: 260vh; }
+
+.motion-on .pin-panel {
+    position: sticky;
+    top: 0;
+    min-height: 100vh;
+    min-height: 100svh;
+    display: grid;
+    align-content: center;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.fill-word { display: inline-block; }
+
+/* Outline state is a hairline stroke over transparent glyphs; the fill is a
+   background clipped to the text, widened from 0 to 100% by --fill. Guarded,
+   because without text-stroke the transparent colour would erase the words. */
+@supports (-webkit-text-stroke: 1px currentColor) {
+    .motion-on .fill-word {
+        color: transparent;
+        -webkit-text-stroke: 1px color-mix(in srgb, var(--statement-fg) 32%, transparent);
+        background-image: linear-gradient(90deg, var(--statement-fg) 0 100%);
+        background-repeat: no-repeat;
+        background-size: calc(var(--fill, 1) * 100%) 100%;
+        -webkit-background-clip: text;
+                background-clip: text;
+    }
+
+    .motion-on .fill-word--accent {
+        -webkit-text-stroke-color: color-mix(in srgb, var(--amber) 40%, transparent);
+        background-image: linear-gradient(90deg, var(--amber) 0 100%);
+    }
+}
+
+.motion-on .statement__sub { opacity: 0; }
+
+.pin-meter {
+    display: none;
+    width: min(220px, 44%);
+    height: 1px;
+    margin: clamp(34px, 5vw, 56px) auto 0;
+    background: color-mix(in srgb, var(--statement-fg) 16%, transparent);
+    overflow: hidden;
+}
+
+.motion-on .pin-meter { display: block; }
+
+.pin-meter i {
+    display: block;
+    height: 100%;
+    background: var(--amber);
+    transform: scaleX(var(--p, 0));
+    transform-origin: left center;
+}
+
+/* ------------------------------------------- Inner zoom, no layout shift -- */
+/* Drop an <img class="media__inner"> inside .media and it inherits the effect:
+   the frame clips, the image scales, the surrounding grid never moves. */
+.media {
+    display: block;
+    overflow: hidden;
+    position: relative;
+}
+
+.media__inner {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: scale(1);
+    transition: transform .5s var(--ease-out), stroke .5s var(--ease-out);
+}
+
+/* ------------------------------------------------------ Magnetic buttons -- */
+.magnetic { will-change: auto; }
+.magnetic.is-pulled { will-change: transform; }
+
+/* A magnet inside a stagger container is also a .reveal, which transitions
+   transform over 600ms with a stagger delay. The spring writes transform every
+   frame, so that transition would swallow the pull whole — the button would
+   sit at its entrance value and never visibly move. Once a magnet has gone
+   live, transform stops being a transitioned property; everything else it
+   animates on hover carries on. */
+.motion-on .magnetic.magnet-live {
+    transition-property: opacity, background-color, color, border-color;
+}
+
+/* ------------------------------------------- Link underline + arrow shift -- */
+.link-u,
+.contact-list a {
+    position: relative;
+    transition: color .4s var(--ease-out);
+}
+
+.link-u::after,
+.contact-list a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -3px;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform .45s var(--ease-out);
+}
+
+.link-u:focus-visible::after,
+.contact-list a:focus-visible::after { transform: scaleX(1); }
+
+.link-u__arrow {
+    display: inline-block;
+    transition: transform .45s var(--ease-out);
+}
+
+/* =========================================== Hover-capable pointers only ==
+   Everything tactile lives behind this query. Touch screens report
+   `hover: none`, where a :hover style would otherwise stick after a tap and
+   the magnetic loop would have no pointer to track.
+   ====================================================================== */
+@media (hover: hover) and (pointer: fine) {
+    .nav-link:hover { color: var(--ink); }
+    .nav-link:hover::after { transform: scaleX(1); }
+
+    .icon-btn:hover { color: var(--ink); border-color: var(--ink); }
+
+    .btn:hover span { transform: translateX(4px); }
+    .btn--dark:hover  { background: var(--navy); }
+    .btn--amber:hover { background: var(--amber-deep); }
+    .btn--ghost:hover { border-color: var(--ink); background: var(--ink); color: var(--paper); }
+
+    [data-theme="dark"] .btn--dark:hover { background: #2A3355; color: #fff; }
+
+    .card:hover { background: var(--paper-2); }
+
+    .pillar:hover .pillar__icon { stroke: var(--amber); }
+    .pillar:hover .media__inner,
+    .card:hover .media__inner,
+    .media:hover .media__inner { transform: scale(1.05); }
+
+    .link-u:hover,
+    .contact-list a:hover { color: var(--amber); }
+
+    .link-u:hover::after,
+    .contact-list a:hover::after { transform: scaleX(1); }
+
+    .link-u:hover .link-u__arrow { transform: translateX(4px); }
+
+    /* Back-to-top points up, so it should travel up. */
+    .footer__top:hover .link-u__arrow { transform: translateY(-4px); }
+}
 
 /* ----------------------------------------------------------- Responsive -- */
 @media (max-width: 1080px) {
@@ -743,6 +1036,13 @@ strong { font-weight: 600; color: var(--ink); }
 }
 
 @media (max-width: 900px) {
+    /* The rail and its markers live in the section gutter; below this the
+       gutter is too narrow to hold them without crowding the copy. */
+    .motion-on .roles-rail,
+    .motion-on .role::before { display: none; }
+
+    .hero__chip { display: none; }
+
     .split { grid-template-columns: 1fr; }
 
     .stats { grid-template-columns: repeat(2, 1fr); gap: 28px 24px; }
@@ -795,6 +1095,9 @@ strong { font-weight: 600; color: var(--ink); }
 }
 
 @media (max-width: 520px) {
+    /* Shorter track: less scroll to hold a phone-sized panel through. */
+    .motion-on .pin-track { height: 210vh; }
+
     .pillars { grid-template-columns: 1fr; }
     .pillar { border-left: 0; }
     .pillar:nth-child(n + 2) { border-top: 1px solid var(--line); }
@@ -803,23 +1106,66 @@ strong { font-weight: 600; color: var(--ink); }
 }
 
 /* --------------------------------------------------------------- Motion -- */
+/* script.js never sets .motion-on when this matches, so the scroll-linked and
+   entrance states below are already inert. These rules are the belt-and-braces
+   pass for anything that slipped through — and for a mid-session change of the
+   OS setting, which the class alone would not catch. */
 @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
 
     *, *::before, *::after {
         animation-duration: .01ms !important;
         transition-duration: .01ms !important;
+        scroll-behavior: auto !important;
     }
 
-    .reveal { opacity: 1; transform: none; }
+    .reveal,
+    .clip-reveal,
+    .statement__sub {
+        opacity: 1 !important;
+        transform: none !important;
+        clip-path: none !important;
+    }
+
+    .fill-word {
+        color: var(--statement-fg) !important;
+        -webkit-text-stroke: 0 !important;
+        background-image: none !important;
+    }
+
+    .pin-track  { height: auto !important; }
+    .pin-panel  { position: static !important; min-height: 0 !important;
+                  padding-top: clamp(110px, 17vw, 220px) !important;
+                  padding-bottom: clamp(110px, 17vw, 220px) !important; }
+    .pin-meter  { display: none !important; }
+    .hero__bg   { display: none; }
 }
 
 /* ---------------------------------------------------------------- Print -- */
 @media print {
-    .header, .footer__top, .split--contact .split__right { display: none; }
+    .header, .footer__top, .split--contact .split__right,
+    .hero__bg, .roles-rail, .pin-meter { display: none; }
+
     body { background: #fff; color: #000; }
     .frame { border: 0; }
+
     .statement { background: #fff; color: #000; }
-    .statement h2, .statement p { color: #000; }
-    .reveal { opacity: 1; transform: none; }
+    .statement__head, .statement__sub { color: #000; opacity: 1; }
+
+    /* Clipped-to-text fill would print as nothing; force solid ink. */
+    .fill-word {
+        color: #000 !important;
+        -webkit-text-stroke: 0 !important;
+        background-image: none !important;
+    }
+
+    .pin-track { height: auto !important; }
+    .pin-panel { position: static !important; min-height: 0 !important; }
+    .role::before { display: none !important; }
+
+    .reveal, .clip-reveal {
+        opacity: 1 !important;
+        transform: none !important;
+        clip-path: none !important;
+    }
 }
